@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="d-flex flex-column bg-light">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main class="d-flex justify-content-center my-auto">
+        <div class="card w-50 shadow border-0">
+            <h3 class="mt-4 text-center"> <i class="fa-regular fa-face-smile-wink me-1"></i> Bem-vindo ao SGP! </h3>
+            <h5 class="lead my-3 text-center">Acesse nossos serviços através dos links abaixo ou do menu de navegação superior!</h5>
+
+            <div class="list-group mx-5 mb-4">
+                <a href="/" class="list-group-item list-group-item-action active" aria-current="true">
+                    <i class="fa-solid fa-house me-1"></i> Página Inicial
+                </a>
+                <a href="/pedidos" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-list-ul me-1"></i> Listagem de Pedidos
+                </a>
+                <a href="/novopedido" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-cart-plus me-1"></i> Registrar novo pedido
+                </a>
+                <a href="/pesquisarPedido" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-magnifying-glass me-1"></i> Verificar Pedido
+                </a>
+              </div>
+        </div>
+        
+
+    </main>
+   
+    <footer class="mt-auto">
+        <%- include('../partials/footer'); %>
+    </footer>
+    
+</body>
+
+</html>

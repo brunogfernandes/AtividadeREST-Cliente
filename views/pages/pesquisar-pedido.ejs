@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="d-flex flex-column bg-light">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main class="d-flex justify-content-center my-auto">
+
+        <div class="card w-50 shadow py-3 px-5 border-0">
+            <h3 class="text-center mt-3 mb-4"><i class="fa-solid fa-magnifying-glass me-1"></i> Pesquisar Pedido</h3>
+
+            <form id="formPesquisarPedido" class="d-flex flex-column">
+                <div class="mb-3">
+                    <label for="id_pedido" class="form-label">ID do Pedido</label>
+                    <input type="text" class="form-control" id="id_pedido" name="id_pedido" placeholder="0">
+                </div>
+    
+                <button type="submit" class="btn btn-dark mx-auto py-2">Efetuar Pesquisa</button>
+            </form>
+
+            <hr id="divisor" style="display:none">
+    
+            <div id="informacoes-pedido" style="display:none">
+                <div class="alert alert-success w-50 mx-auto" role="alert">
+                    <h4 class="text-center m-0">Pedido encontrado!</h4>
+                </div>
+                
+                <p class="text-muted text-center m-0">Confira os dados do pedido abaixo:</p>  
+                
+                <ul id="lista-informacoes-pedido" class="lead mx-auto"></ul>
+            </div>
+    
+            <div id="pedido-invalido" style="display:none" class="text-center">
+                <div class="alert alert-danger w-50 mx-auto" role="alert">
+                    <h4 class="m-0">O pedido não foi encontrado!</h4>
+                </div>
+                <p class="text-muted">Por favor, insira um ID válido para o pedido.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-auto">
+        <%- include('../partials/footer'); %>
+    </footer>
+
+    <script>
+
+        const form = document.getElementById('formPesquisarPedido');
+
+        form.addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = new URLSearchParams(formData);
+
+            const idPedido = data.get("id_pedido");
+
+            fetch('http://localhost:3000/pedidos/'+idPedido, {
+                
+                method: "GET"
+
+            }).then((res) => {
+
+                return res.json();
+
+            }).then((data) => {
+
+                const divPedidoInvalido = document.getElementById("pedido-invalido");
+                const divInformacoesPedido = document.getElementById("informacoes-pedido");
+                const divisor = document.getElementById("divisor");
+
+                if(data.pedido){
+
+                    const pedido = data.pedido;
+
+                    const informacoes_pedido = document.getElementById("lista-informacoes-pedido");
+                    informacoes_pedido.innerHTML = "";
+
+                    for (const [key, value] of Object.entries(pedido)) {
+
+                        const node = document.createElement("li");
+                        const textnode = document.createTextNode(`${key}: ${value}`);
+                        
+                        if(!(key == 'link_cobranca' || key == 'pdf')){
+                            node.style.textTransform = "capitalize";
+                        }
+                        
+                        node.appendChild(textnode);
+
+                        informacoes_pedido.appendChild(node);
+                        
+                    }
+
+                    divPedidoInvalido.style.display = "none";
+                    divInformacoesPedido.style.display = "block";
+                    divisor.style.display = "block";
+
+                } else {
+
+                    divInformacoesPedido.style.display = "none";
+                    divPedidoInvalido.style.display = "block";  
+                    divisor.style.display = "block";  
+
+                }
+                
+            });
+            
+        });
+
+    </script>
+</body>
+
+</html>

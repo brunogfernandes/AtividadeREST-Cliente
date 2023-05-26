@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="d-flex flex-column bg-light">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main class="d-flex justify-content-center my-auto">
+        <div class="card w-50 shadow border-0 py-4 px-5">
+            <h3 class="text-center mt-3 mb-4"><i class="fa-solid fa-cart-plus me-1"></i> Novo Pedido</h3>
+
+            <form id="formPedido" class="d-flex flex-column">
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Nome Completo do Cliente">
+                </div>
+
+                <div class="mb-3">
+                    <label for="produto" class="form-label">Produto</label>
+                    <input type="text" class="form-control" id="produto" name="produto" placeholder="Produto Adquirido">
+                </div>
+
+                <div class="mb-4">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input type="text" class="form-control" id="valor" name="valor" placeholder="00.00">
+                </div>
+    
+                <button type="submit" class="btn btn-dark mx-auto py-2">Registrar Pedido</button>
+
+            </form>
+        </div>
+        
+    </main>
+
+    <footer class="mt-auto"> 
+        <%- include('../partials/footer'); %>
+    </footer>
+
+    <script>
+
+        const form = document.getElementById('formPedido');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = new URLSearchParams(formData);
+
+            fetch('http://localhost:3000/novopedido', {
+                method: "POST",
+                mode: 'no-cors',
+                body: data
+            }).then(() => {
+                window.location.href = "http://localhost:8080/"
+            })
+        });
+
+    </script>
+</body>
+
+</html>
